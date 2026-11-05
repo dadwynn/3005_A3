@@ -30,13 +30,15 @@ You can access the demo video [here]()
   
 ### 2. Install dependencies
 ```
-pip install "psycopg[binary]"
+pip install "psycopg[binary]" python-dotenv
 ```
  
 ### 3. Configure the connection
 Create a `.env` file in the project root mirroring `.env.example` 
 
-### 4. Run the application
+### 4. Run the 
+
+Navigate to project root direct and run the following command:
 ```bash
 python app/CRUD.py
 ```
