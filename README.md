@@ -6,7 +6,7 @@ Dadwynn Francois
 A command-line Python application that connects to a PostgreSQL database and performs CRUD operations on a `students` table.
 
 ## Video Link
-You can access the demo video [here]()
+You can access the demo video [here](https://www.loom.com/share/a555a30cf947433195c180345d9429ab)
 
 ## File Structure 
 ```
@@ -16,8 +16,8 @@ You can access the demo video [here]()
 ├── sql/
 │   └── DDL_DML.sql     # creates the students table and inserts the initial data
 └── app/
-    └── initDB.py       # store helper function init() that initializes database
-    └── CRUD.py         # database setup using initDB.py, CRUD function implementation and the menu loop for CLI
+    └── initDB.py       # contains helper function: init() that initializes database
+    └── CRUD.py         # contains database setup using initDB.py, CRUD function implementations and the menu loop for CLI
 
 ```
 
@@ -36,13 +36,13 @@ pip install "psycopg[binary]" python-dotenv
 ### 3. Configure the connection
 Create a `.env` file in the project root mirroring `.env.example` 
 
-### 4. Run the 
+### 4. Run the application
 
-Navigate to project root direct and run the following command:
+Navigate to the project root and run the following command:
 ```bash
 python app/CRUD.py
 ```
-On startup the `studentdb` database is dropped (if it exists), recreated and populated from `sql/DDL_DML.sql`. 
+On startup the `studentdb` database is dropped (if it exists) so make sure you are connected when this happens. Database is then recreated and populated from `sql/DDL_DML.sql`. 
  
 ### 5. Use the menu
 Follow the menu prompts to execute CRUD operations 

@@ -1,3 +1,4 @@
+import os
 import psycopg
 from datetime import date
 from initDB import init, DB_INFO
@@ -5,12 +6,12 @@ from initDB import init, DB_INFO
 DB_NAME = os.getenv("DB_NAME")
 
 def getAllStudents(): #Retrieves and displays all records from the students table.
-    with psycopg.connect(**DB_INFO, dbname=DB_NAME) as conn:
+    with psycopg.connect(**DB_INFO, dbname=DB_NAME) as conn: #with..as will automatically close connection when done executing
         rows = conn.execute("SELECT * FROM students").fetchall()
         print("Students: \n")
 
         print(f"{'student_id':>12}  {'first_name':20} {'last_name':20} {'email':40} {'enrollment_date':20}")
-        print("-" * 72)
+        print("-" * 150)
         for id, first, last, email, enrolled in rows:
             print(f"{id:>12}  {first:20} {last:20} {email:40} {enrolled!s:20}")
 
@@ -35,18 +36,18 @@ def updateStudentEmail(student_id, new_email): #Updates the email address for a 
                     SET email = %s
                     WHERE student_id = %s
                     """, 
-                    (email, student_id))
+                    (new_email, student_id))
     
     return result.rowcount #number of rows deleted, if student doesnt exist, value will be zero
 
 
-deleteStudent(student_id): #Deletes the record of the student with the specified student_id.
+def deleteStudent(student_id): #Deletes the record of the student with the specified student_id.
     with psycopg.connect(**DB_INFO, dbname=DB_NAME) as conn:
         result = conn.execute("""
                     DELETE FROM students
                     WHERE student_id = %s
                     """, 
-                    (student_id))
+                    (student_id,))
 
         return result.rowcount 
 
@@ -57,7 +58,7 @@ def main():
 
     choice = -1
     while choice!=0:
-        print("\n(1) CREATE\n (2) RETRIEVE\n (3) UPDATE\n (4) DELETE\n (0) EXIT\n ")
+        print("\n (1) CREATE\n (2) RETRIEVE\n (3) UPDATE\n (4) DELETE\n (0) EXIT\n ")
         
 
         try:
@@ -100,7 +101,7 @@ def main():
                     getAllStudents()
 
                 except psycopg.Error:
-                    print("Error retrieving students)
+                    print("Error retrieving students")
 
             case 3:
                 #get user input
@@ -142,7 +143,7 @@ def main():
                     print("Delete failed:", err)
 
 
-            case_:
+            case _:
                 print("This option does not exist")
 
 

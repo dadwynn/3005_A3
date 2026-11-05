@@ -20,30 +20,27 @@ DB_INFO = dict(
     password=os.getenv("DB_PASSWORD"),
 )
 
-
+#drops and recreates DB
 def recreate_database():
-    # DROP/CREATE DATABASE can't run inside a transaction, and you can't drop the db you're connected to, so connect to the default "postgres"
-    # database in autocommit mode. Each statement must be its own execute().
-
-    with psycopg.connect(**DB_INFO, dbname="postgres", autocommit=True) as conn:
+    # DROP/CREATE DATABASE can't run inside a transaction, and u can't drop the db you're connected to, so connect to the default "postgres"
+    with psycopg.connect(**DB_INFO, dbname="postgres", autocommit=True) as conn: #database in autocommit mode. Each statement must be its own execute().
         conn.execute("DROP DATABASE IF EXISTS studentDB")
         conn.execute("CREATE DATABASE studentDB")
         print("Recreated database")
 
 def init():
     try:
-        # 1. deleting and recreating db
+        #deleting and recreating db
         recreate_database()
 
-        # 2. connect to DB
+        #connect to DB
         DB_NAME = os.getenv("DB_NAME")
         with psycopg.connect(**DB_INFO, dbname=DB_NAME) as conn:
             print(f'Connected to database "{DB_NAME}"')
 
             script = SQL_PATH.read_text(encoding="utf-8")
 
-            # 3. running the script as a transaction:
-            # commits if the block finishes, rolls back on any error
+            #running the sql script (ddl & dml) as a transaction
             with conn.transaction():
                 conn.execute(script)
 
