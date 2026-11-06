@@ -16,7 +16,7 @@ You can access the demo video [here](https://www.loom.com/share/a555a30cf9474331
 ├── sql/
 │   └── DDL_DML.sql     # creates the students table and inserts the initial data
 └── app/
-    ├── initDB.py       # contains helper function: init() that initializes database
+    ├── initDB.py       # contains helper function: init() that initializes database (creates database & table + inserts initial data)
     └── CRUD.py         # contains database setup using initDB.py, CRUD function implementations and the menu loop for CLI
 ```
 
