@@ -7,9 +7,10 @@ DB_NAME = os.getenv("DB_NAME")
 
 def getAllStudents(): #Retrieves and displays all records from the students table.
     with psycopg.connect(**DB_INFO, dbname=DB_NAME) as conn: #with..as will automatically close connection when done executing
-        rows = conn.execute("SELECT * FROM students").fetchall()
+        rows = conn.execute("SELECT * FROM students").fetchall() #getting all students
         print("Students: \n")
 
+        #outputting rows w nice formatting
         print(f"{'student_id':>12}  {'first_name':20} {'last_name':20} {'email':40} {'enrollment_date':20}")
         print("-" * 150)
         for id, first, last, email, enrolled in rows:
@@ -24,7 +25,7 @@ def addStudent(first_name, last_name, email, enrollment_date): #Inserts a new st
                     INSERT INTO students(first_name, last_name, email, enrollment_date)
                     VALUES (%s, %s, %s, %s)
                     """, 
-                    (first_name, last_name, email, enrollment_date))
+                    (first_name, last_name, email, enrollment_date)) 
     
     return
 
@@ -38,7 +39,7 @@ def updateStudentEmail(student_id, new_email): #Updates the email address for a 
                     """, 
                     (new_email, student_id))
     
-    return result.rowcount #number of rows deleted, if student doesnt exist, value will be zero
+    return result.rowcount #number of rows deleted, if student doesnt exist, value will be zero. Therefore making checks in main function be false
 
 
 def deleteStudent(student_id): #Deletes the record of the student with the specified student_id.
@@ -114,10 +115,10 @@ def main():
                 new_email = input("New Email: ").strip()
 
                 try: 
-                    if updateStudentEmail(student_id, new_email):
+                    if updateStudentEmail(student_id, new_email): 
                         print(f"Changed student {student_id} email to {new_email}")
 
-                    else:
+                    else: #if result.rowcount = 0
                         print(f"No student with ID {student_id}")
 
                 except psycopg.errors.UniqueViolation:
